@@ -86,7 +86,7 @@ export default function todos (state = initialState, action) {
             return {
                 ...state,
                 todoData: {
-                    loading: true,
+                    loading: state.todoData.data,
                     error: null,
                     data: null
                 }

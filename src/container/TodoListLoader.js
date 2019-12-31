@@ -13,19 +13,22 @@ function TodoListLoader() {
         dispatch(getTodos());
     }, [dispatch]);
     //생성하기.
-    const onSubmitData = (text) => {
-        dispatch(postTodos(text))
-        .then(dispatch(getTodos()));
+    const onSubmitData = async (text) => {
+        let postSuccess = postTodos(text)
+        await postSuccess(dispatch)
+        dispatch(getTodos());
     };
     //삭제하기.
-    const onRemove = (id) => {
-        dispatch(delTodos(id))
-        .then(dispatch(getTodos()));
+    const onRemove = async (id) => {
+        let delSuccess = delTodos(id)
+        await delSuccess(dispatch)
+        dispatch(getTodos());
     };
     //데이터 고치기.
-    const onToggle = (id, done) => {
-        dispatch(patchTodos(id, done))
-        .then(dispatch(getTodos()));
+    const onToggle = async (id, done) => {
+        let patchSuccess = patchTodos(id,done)
+        await patchSuccess(dispatch)
+        dispatch(getTodos());
     };
     //데이터 확인 용.
     console.log(todos);
@@ -35,7 +38,7 @@ return (
         <>
             <TodoListForm onSubmitData={onSubmitData} />
             <div>
-                {loading && <p style={{ textAlign: 'center' }}>로딩중..</p>}
+                {loading && <TodoList todos={loading} onRemove={onRemove} onToggle={onToggle}/>}
                 {error && <p style={{ textAlign: 'center' }}>에러 발생!</p>}
                 {data && <TodoList todos={data} onRemove={onRemove} onToggle={onToggle}/>}
             </div>
